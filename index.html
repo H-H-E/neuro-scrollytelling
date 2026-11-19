@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Painted Neuron — An Atlas of Signals and Circuits</title>
+<meta name="description" content="A hand-painted scrollytelling atlas of neurons: how a resting voltage becomes an impulse, how synapses vote, and how small circuits make a nervous system. Based on Neuroscience Online (UTHealth).">
+<link rel="stylesheet" href="css/style.css">
+<script defer src="vendor/p5.min.js"></script>
+<script defer src="vendor/p5.brush.js"></script>
+<script defer src="js/paint.js"></script>
+<script defer src="js/app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <p class="kicker">A painted atlas · Plate series</p>
+  <h1>The Painted Neuron</h1>
+  <p class="dek">Three pounds of jelly, eighty billion cells, and a single question running
+  through all of it: <strong>how does one cell tell another what to do?</strong></p>
+  <div class="hero-plate" id="heroPlate" data-plate="hero" aria-hidden="true"></div>
+  <nav aria-label="Chapters">
+    <ol>
+      <li><a href="#neuron">I · The neuron</a></li>
+      <li><a href="#resting">II · The resting potential</a></li>
+      <li><a href="#spike">III · Threshold &amp; the spike</a></li>
+      <li><a href="#integration">IV · Excitation meets inhibition</a></li>
+      <li><a href="#motifs">V · Circuit motifs</a></li>
+      <li><a href="#reflex">VI · The knee-jerk reflex</a></li>
+      <li><a href="#lateral">VII · Edges &amp; Mach bands</a></li>
+      <li><a href="#synthesis">VIII · Synthesis</a></li>
+    </ol>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ SCENE I: THE NEURON ============ -->
+<section class="scene" id="neuron" aria-labelledby="neuron-h">
+  <div class="plate-wrap">
+    <figure class="plate" id="plateNeuron" data-plate="neuron">
+      <div class="plate-canvas"></div>
+      <svg class="plate-fallback" viewBox="0 0 640 400" role="img" aria-label="Fallback diagram: a neuron with branching dendrites, a rounded cell body, a long axon, and a synaptic terminal approaching a second cell.">
+        <ellipse cx="255" cy="205" rx="52" ry="42" fill="#e8b98a" stroke="#7a4d26" stroke-width="3"/>
+        <path d="M210 195 q-40 -35 -75 -30 M215 215 q-45 5 -70 35 M225 230 q-25 40 -55 55 M245 165 q-15 -40 5 -65" fill="none" stroke="#7a4d26" stroke-width="4" stroke-linecap="round"/>
+        <path d="M305 205 q120 -10 205 -5" fill="none" stroke="#a05a2c" stroke-width="8" stroke-linecap="round"/>
+        <ellipse cx="525" cy="200" rx="26" ry="18" fill="#e8b98a" stroke="#7a4d26" stroke-width="3"/>
+        <ellipse cx="555" cy="235" rx="44" ry="34" fill="#bfe3e0" stroke="#2b6a66" stroke-width="3"/>
+        <circle cx="505" cy="230" r="4" fill="#3d5aa9"/><circle cx="516" cy="222" r="3.5" fill="#3d5aa9"/><circle cx="510" cy="213" r="3" fill="#3d5aa9"/>
+      </svg>
+      <div class="labels" aria-hidden="true">
+        <button class="label-dot" style="left:16%;top:6%"   data-target="lbl-dendrites"></button>
+        <button class="label-dot" style="left:40%;top:46%"  data-target="lbl-soma"></button>
+        <button class="label-dot" style="left:60%;top:38%"  data-target="lbl-axon"></button>
+        <button class="label-dot" style="left:84%;top:38%"  data-target="lbl-synapse"></button>
+      </div>
+    </figure>
+    <div class="label-texts">
+      <p class="label-text" id="lbl-dendrites" hidden><strong>Dendrites</strong> — where the neuron receives most of its connections. One cell can receive contacts from up to 10,000 others.</p>
+      <p class="label-text" id="lbl-soma" hidden><strong>Soma (cell body)</strong> — holds the nucleus and the organelles that keep the cell alive and stocked with transmitter.</p>
+      <p class="label-text" id="lbl-axon" hidden><strong>Axon</strong> — the transmission cable. Information travels from the cell body toward the terminals; in some sensory and motor cells the axon is about a meter long.</p>
+      <p class="label-text" id="lbl-synapse" hidden><strong>Synapse</strong> — the terminal. The presynaptic ending faces the next cell across a narrow synaptic cleft, and talks to it chemically, not by touching it.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p class="scene-no">Plate I</p>
+    <h2 id="neuron-h">The neuron</h2>
+    <p>The brain’s phenomenal features would not be possible without the billions of neurons that make it up — and, importantly, the connections between them. Unlike most cells, neurons are polarized: they have distinct regions with distinct jobs. Dendrites listen, the soma houses the machinery, the axon carries the message, and the synapse delivers it.</p>
+    <p>The presynaptic cell is never directly connected to the postsynaptic one. The two are separated by a gap, the <em>synaptic cleft</em>. So to communicate, the presynaptic terminal releases a chemical messenger from small vesicles (exocytosis), the transmitter diffuses across the gap, and it binds receptors on the far side. Receptor binding opens ion channels, changing the electrical potential of the postsynaptic cell.</p>
+    <p>Tap the painted pins to read each region. And notice the hidden point of this plate: because signaling among neurons is electrical, to understand circuits we first have to understand the electrical properties of a single cell.</p>
+    <details class="aside">
+      <summary>Deeper: pre- and post- are roles, not cell types</summary>
+      <p>The tan neuron that is presynaptic to the aqua one is itself postsynaptic to three other neurons. Most “presynaptic” neurons are “postsynaptic” to some other neuron. Each cell can contact up to 10,000 postsynaptic cells, so the potential complexity of the network is vast.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SCENE II: RESTING POTENTIAL ============ -->
+<section class="scene" id="resting" aria-labelledby="resting-h">
+  <div class="prose">
+    <p class="scene-no">Plate II</p>
+    <h2 id="resting-h">The resting potential</h2>
+    <p>Take a fine glass microelectrode — a capillary tube stretched under heat to a tip about one micron across — fill it with conducting solution, and connect it to a recorder. Outside the cell, in the extracellular medium, it reads zero. Everything out there is at the same potential.</p>
+    <p>Push the tip through the membrane and the pen snaps down: the inside of the cell is about <strong>−60 millivolts</strong> relative to the outside. That is the <em>resting potential</em>, and in the absence of stimulation it is constant for indefinite periods. Every cell in the body has a resting potential; what makes neurons (and muscle) special is that theirs is <em>changeable</em>.</p>
+    <figure class="demo" id="resting-demo">
+      <figcaption class="demo-label">Recording demo — try it</figcaption>
+      <div class="demo-controls">
+        <button id="electrodeBtn" class="btn" aria-describedby="resting-readout">Insert microelectrode</button>
+      </div>
+      <svg id="restingTrace" viewBox="0 0 480 180" role="img" aria-labelledby="resting-readout"></svg>
+      <p id="resting-readout" class="readout" aria-live="polite">Electrode outside the cell: the recorder shows 0 mV.</p>
+    </figure>
+    <details class="aside">
+      <summary>Method: what a microelectrode actually is</summary>
+      <p>A small piece of glass capillary tubing, stretched under heat to a tip on the order of 1 micron, filled with a conducting solution and connected to a recording device such as an oscilloscope or chart recorder.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SCENE III: ACTION POTENTIAL ============ -->
+<section class="scene" id="spike" aria-labelledby="spike-h">
+  <div class="prose">
+    <p class="scene-no">Plate III</p>
+    <h2 id="spike-h">Threshold and the spike</h2>
+    <p>Now impale the neuron with a second, stimulating electrode wired through a switch to a battery. Orient the positive pole in, close the switch, and the inside of the cell becomes somewhat more positive — a <em>depolarization</em>. Small batteries give small deflections. But wind the battery up, and at a certain voltage something extraordinary happens.</p>
+    <figure class="demo" id="ap-demo">
+      <figcaption class="demo-label">Stimulator — choose the battery</figcaption>
+      <div class="demo-controls">
+        <label for="stimSlider">Depolarizing stimulus: <output id="stimOut" for="stimSlider">5 mV</output></label>
+        <input type="range" id="stimSlider" min="0" max="30" step="1" value="4" aria-describedby="ap-readout">
+      </div>
+      <svg id="apTrace" viewBox="0 0 520 220" role="img" aria-labelledby="ap-readout"></svg>
+      <p id="ap-readout" class="readout" aria-live="polite">Stimulus 4 mV: depolarization to −56 mV. Below threshold: no action potential.</p>
+      <p class="note">Threshold here sits 10 mV above rest (−60 mV → −50 mV), a simplifying convention; the size of a real cell’s threshold varies. At or above threshold the spike always peaks near +40 mV in about 0.5 ms, then repolarizes — all-or-nothing.</p>
+    </figure>
+    <p>Two features of the action potential are worth carrying forward. First, it is <strong>all-or-nothing</strong>: at or above threshold you get a full spike, and a bigger stimulus gives the <em>same</em> spike — like a match lighting a fuse; a hotter match doesn’t burn the fuse brighter. Second, it is brief — a few milliseconds. And once initiated at one region of the cell, it propagates along the axon without shrinking, all the way to the synapse, like a burning fuse.</p>
+    <figure class="demo" id="freq-demo">
+      <figcaption class="demo-label">Coding by frequency — stronger stimulus, more spikes</figcaption>
+      <div class="demo-controls">
+        <label for="freqSlider">Stimulus intensity: <output id="freqOut" for="freqSlider">×1</output></label>
+        <input type="range" id="freqSlider" min="1" max="10" step="1" value="3" aria-describedby="freq-readout">
+      </div>
+      <svg id="freqTrace" viewBox="0 0 520 140" role="img" aria-labelledby="freq-readout"></svg>
+      <p id="freq-readout" class="readout" aria-live="polite">Intensity ×3: 3 spikes in 100 ms (30/s). The nervous system encodes intensity in spike frequency, not amplitude.</p>
+    </figure>
+    <details class="aside">
+      <summary>Deeper: why this is called frequency modulation</summary>
+      <p>Engineers call this way of carrying information <em>pulse frequency modulation</em>. Harder touch, stronger stretch, brighter light — each arrives in the central nervous system as a higher rate of identical action potentials, and in the motor system more spikes in a motor neuron mean stronger muscle contraction.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SCENE IV: SYNAPTIC INTEGRATION ============ -->
+<section class="scene" id="integration" aria-labelledby="integration-h">
+  <div class="plate-wrap">
+    <figure class="plate" id="plateIntegration" data-plate="integration">
+      <div class="plate-canvas"></div>
+      <svg class="plate-fallback" viewBox="0 0 460 300" role="img" aria-label="Fallback diagram: a green excitatory neuron and a red inhibitory neuron each sending an axon to a blue postsynaptic neuron, with round terminal boutons at the contact points.">
+        <ellipse cx="90" cy="60" rx="36" ry="30" class="cell green"/>
+        <path class="green" d="M120 68 C180 90 240 120 300 150"/>
+        <circle cx="305" cy="152" r="10" class="cell green"/>
+        <ellipse cx="96" cy="238" rx="34" ry="28" class="cell green" style="fill:#eecdc3;stroke:#b0472f"/>
+        <path class="red" d="M126 228 C190 210 250 190 295 175"/>
+        <circle cx="300" cy="172" r="9" class="cell green" style="fill:#b0472f;stroke:#b0472f"/>
+        <ellipse cx="315" cy="160" rx="52" ry="44" class="cell blue"/>
+      </svg>
+    </figure>
+    <div class="prose">
+      <p class="scene-no">Plate IV</p>
+      <h2 id="integration-h">Excitement meets inhibition</h2>
+      <figure class="demo" id="syn-demo">
+        <figcaption class="demo-label">Adding machine — you control the inputs</figcaption>
+        <div class="demo-controls">
+          <button class="btn" id="greenSpikes" aria-describedby="syn-readout">Excitatory neuron: 2 action potentials</button>
+          <button class="btn toggle" id="redSpike" aria-pressed="false" aria-describedby="syn-readout">Inhibitory neuron: 1 action potential (off)</button>
+          <button class="btn" id="synReset">Reset</button>
+        </div>
+        <svg id="synTrace" viewBox="0 0 520 220" role="img" aria-labelledby="syn-readout"></svg>
+        <p id="syn-readout" class="readout" aria-live="polite">Two EPSPs summate past threshold: the postsynaptic neuron fires.</p>
+      </figure>
+      <p>An action potential in the <strong>green</strong> neuron releases transmitter that depolarizes the blue postsynaptic cell — an <em>excitatory postsynaptic potential (EPSP)</em>, a “go” signal. One spike is generally not enough; but two EPSPs arriving close together in time, or on neighboring dendrites, can summate to threshold. The <strong>red</strong> neuron releases a transmitter with the opposite effect: a hyperpolarizing <em>IPSP</em>, a “stop” signal that pulls the membrane away from threshold.</p>
+      <p>The postsynaptic neuron is an adding machine. It sums excitation and inhibition across time (<em>temporal summation</em>) and across the surface of its dendrites (<em>spatial summation</em>). At or above threshold: spike. Below: silence. Try letting the red neuron fire just before the green ones, and watch the same excitatory volley get gated off.</p>
+      <details class="aside">
+        <summary>Model &amp; assumptions</summary>
+          <p>This demo uses a simplified descriptive model, not a biophysical simulation: EPSPs peak at +11 mV from rest with exponential decay (τ ≈ 8 ms) and presynaptic spikes 6 ms apart, the IPSP dips −14 mV with slower decay (τ ≈ 15 ms), and threshold sits 10 mV above rest. Reference cases validated against the chapter: one EPSP alone stays subthreshold (peak −52 mV); two EPSPs summate past threshold (−49.8 mV) and fire; the same two plus a preceding IPSP peak below threshold (−54 mV); three EPSPs fire. Real summation is sublinear and location-dependent, so treat the traces as an illustrative reconstruction, not a measurement.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE V: MOTIFS ============ -->
+<section class="scene" id="motifs" aria-labelledby="motifs-h">
+  <div class="prose">
+    <p class="scene-no">Plate V</p>
+    <h2 id="motifs-h">A field guide to circuit motifs</h2>
+    <p>A neuron can receive contacts from up to 10,000 presynaptic cells and can contact up to 10,000 postsynaptic cells. The possible circuit topologies are enormous — yet much of what a nervous system does is built from a small set of recurring microcircuit motifs:</p>
+    <ul class="motifs">
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Feedforward excitation: cell A with arrow to cell B."><path class="green" d="M15 40 C70 40 70 40 95 40"/><polygon class="green" points="95,32 115,40 95,48"/><circle cx="18" cy="40" r="12" class="cell green"/><circle cx="160" cy="40" r="12" class="cell blue"/></svg><figcaption><strong>Feedforward excitation</strong> — relays information from one neuron to its neighbor; long chains propagate it through the nervous system.</figcaption></figure></li>
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Feedforward inhibition: cell A excites an interneuron which inhibits cell C."><path class="green" d="M15 40 C70 40 70 40 95 40"/><polygon class="green" points="95,32 115,40 95,48"/><circle cx="18" cy="40" r="12" class="cell green"/><circle cx="128" cy="40" r="12" class="cell black"/><path class="red" d="M128 52 C128 70 160 70 160 62"/><polygon class="red" points="155,68 162,60 148,62"/></svg><figcaption><strong>Feedforward inhibition</strong> — A excites an inhibitory interneuron, which shuts down the next follower cell. A way to limit excitation downstream.</figcaption></figure></li>
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Divergence and convergence: one cell fanning out and several cells converging on one."><circle cx="18" cy="40" r="12" class="cell green"/><path class="green" d="M30 34 C80 14 140 22 160 28 M30 46 C80 66 140 58 160 52"/><circle cx="170" cy="24" r="10" class="cell blue"/><circle cx="170" cy="56" r="10" class="cell blue"/></svg><figcaption><strong>Divergence / convergence</strong> — one neuron fans out to many postsynaptic cells; many inputs converge onto one. The stretch reflex uses both.</figcaption></figure></li>
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Lateral inhibition: a central excited cell inhibiting both neighbors."><circle cx="110" cy="40" r="12" class="cell green"/><path class="red" d="M98 34 C80 26 70 26 58 30 M122 34 C140 26 150 26 162 30"/><polygon class="red" points="48,26 58,36 44,38"/><polygon class="red" points="172,26 182,36 168,38"/><circle cx="40" cy="38" r="12" class="cell blue"/><circle cx="180" cy="36" r="12" class="cell blue"/></svg><figcaption><strong>Lateral inhibition</strong> — excited cells suppress their neighbors. In sensory systems this sharpens edges (Plate VII).</figcaption></figure></li>
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Feedback inhibition: cell A excites B; B excites an interneuron that inhibits A."><circle cx="40" cy="58" r="12" class="cell green"/><path class="green" d="M52 54 C90 40 120 34 150 22"/><circle cx="165" cy="20" r="10" class="cell blue"/><path class="red" d="M150 38 C120 52 92 60 66 60"/><polygon class="red" points="68,52 54,60 68,68"/></svg><figcaption><strong>Feedback (recurrent) inhibition</strong> — the excited cell ends up inhibiting itself, via a Renshaw cell in the spinal cord or a basket cell in the hippocampus. Damping and gain control.</figcaption></figure></li>
+      <li><figure><svg viewBox="0 0 220 80" role="img" aria-label="Feedback excitation: two cells exciting each other in a loop."><circle cx="60" cy="50" r="12" class="cell green"/><circle cx="160" cy="26" r="12" class="cell blue"/><path class="green" d="M70 42 C110 30 120 26 148 22"/><polygon class="green" points="146,16 160,24 146,32"/><path class="red" d="M60 36 C110 30 130 30 158 30" opacity="0"/><path class="green" d="M150 30 C110 40 100 50 72 56" opacity="0"/><path class="green" d="M151 32 C120 42 100 52 75 58"/><polygon class="green" points="78,48 62,58 76,66"/></svg><figcaption><strong>Feedback excitation</strong> — mutual excitation that can latch a network on: once triggered, activation is perpetuated. Switch-like.</figcaption></figure></li>
+    </ul>
+    <p>Simple as these look, such microcircuits mediate reflexes, process sensory information, generate locomotion, and mediate learning and memory. Larger functions — object recognition, cognition — come from macrocircuits built out of many embedded microcircuits.</p>
+    <p>And the same shapes recur <em>within</em> single cells, as biochemical “nanocircuits.”</p>
+    <details class="aside">
+      <summary>Deeper: nanocircuits — the same loops inside one cell</summary>
+      <p><strong>Endogenous bursting.</strong> Some neurons fire rhythmic bursts of spikes with no synaptic input at all. A calcium-permeable channel (g<sub>SI</sub>) depolarizes the cell until it fires; the firing lets Ca²⁺ in; accumulated Ca²⁺ inhibits the very channel that let it in; buffers and pumps (I<sub>NaCa</sub>, I<sub>CaP</sub>) slowly bring Ca²⁺ back down; disinhibited, the channel opens again. A parabolic burster repeats this every ten to fifteen seconds — an excitatory-inhibitory feedback loop made of molecules, not synapses.</p>
+      <p><strong>Circadian rhythms.</strong> The <em>per</em> gene makes <em>per</em> mRNA, which makes PER protein, which returns to the nucleus and represses its own gene. PER degrades over roughly 24 hours; as it disappears, repression lifts and the cycle repeats. Neurons in the suprachiasmatic nucleus run this loop to time melatonin, cortisol, and body temperature.</p>
+      <p>In both cases: excitation, feedback inhibition, waning of the inhibitor, and a new cycle. The motif is conserved from molecules to circuits.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SCENE VI: REFLEX ============ -->
+<section class="scene" id="reflex" aria-labelledby="reflex-h">
+  <div class="plate-wrap">
+    <figure class="plate" id="plateReflex" data-plate="reflex">
+      <div class="plate-canvas"></div>
+      <svg class="plate-fallback" viewBox="0 0 460 340" role="img" aria-label="Fallback diagram of the stretch reflex: a vertical spinal cord on the left; a descending sensory branch splitting into an excitatory branch to an extensor motor neuron and a branch through an inhibitory interneuron; a thigh and lower leg with hatched muscle and an orange dot at the knee; a hammer head near the knee; and an efferent line returning to the muscle.">
+        <path d="M60 40 C74 120 66 210 80 300" stroke="#7a5f3a" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <g stroke="#3c352d" stroke-width="3" fill="none"><path d="M66 120 C30 130 50 250 60 300"/><path d="M78 140 C140 150 220 190 300 240"/><path d="M74 160 C150 120 240 90 320 70"/></g>
+        <ellipse cx="330" cy="240" rx="26" ry="20" class="cell blue"/>
+        <circle cx="300" cy="190" r="14" fill="#dcd6ca" stroke="#3c352d" stroke-width="2"/>
+        <path d="M292 200 C300 240 292 270 285 290" stroke="#b0472f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="300" cy="60" rx="30" ry="14" fill="#d9d2c4" stroke="#3c352d" stroke-width="2"/>
+        <path d="M250 66 C240 96 232 120 228 138" stroke="#3c352d" stroke-width="4" fill="none"/>
+        <ellipse cx="222" cy="150" rx="38" ry="26" fill="#e8b98a" stroke="#7a4d26" stroke-width="3"/>
+        <circle cx="228" cy="138" r="8" fill="#c8801f"/>
+        <path d="M228 138 C248 210 252 260 244 320" stroke="#e8b98a" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <g stroke="#7a4d26" stroke-width="2"><path d="M206 120 L198 176"/><path d="M220 118 L214 174"/><path d="M234 118 L230 172"/></g>
+        <path d="M356 228 C380 212 392 190 386 166" stroke="#2b6a66" stroke-width="3" fill="none" stroke-linecap="round"/>  
+      </svg>
+    </figure>
+    <div class="prose">
+      <p class="scene-no">Plate VI</p>
+      <h2 id="reflex-h">The knee-jerk, stroke by stroke</h2>
+      <p>A neurologist taps the knee with a rubber hammer. The muscle stretches; stretch-sensitive sensory neurons fire; the impulse travels into the spinal cord, where the sensory axon splits into two branches — and a full behavior comes out the other end.</p>
+      <figure class="demo" id="reflex-demo">
+        <figcaption class="demo-label">Replay the reflex</figcaption>
+        <div class="demo-controls">
+          <button class="btn" id="tapBtn" aria-describedby="reflex-readout">Tap the knee</button>
+          <button class="btn" id="reflexStep" aria-describedby="reflex-readout">Next step</button>
+          <button class="btn" id="reflexReset" aria-describedby="reflex-readout">Reset</button>
+        </div>
+        <ol id="reflexSteps" class="steps">
+          <li>The hammer stretches the muscle; sensory neurons fire all-or-nothing action potentials.</li>
+          <li>The sensory axon bifurcates inside the spinal cord.</li>
+          <li>Left branch — feedforward excitation: the sensory terminal excites the extensor motor neuron (E). The motor neuron fires, the muscle is activated, the leg extends.</li>
+          <li>Right branch — feedforward inhibition: the sensory terminal also excites an interneuron, which inhibits the flexor motor neuron (F), preventing an inappropriate flexion.</li>
+          <li>Divergence and convergence: one sensory neuron diverges to many motor neurons; many sensory neurons converge on each motor neuron. The reflex is a population effect.</li>
+        </ol>
+        <p id="reflex-readout" class="readout" aria-live="polite">Signal at rest. Tap the knee to begin.</p>
+      </figure>
+      <details class="aside">
+        <summary>Why clinicians use it</summary>
+        <p>The knee-jerk (stretch reflex) is a simple way to examine the integrity of sensory and motor pathways in the spinal cord: sensory neurons whose axons split in the cord, an excitatory branch, a disynaptic inhibitory branch, and the motor output to muscle.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE VII: LATERAL INHIBITION ============ -->
+<section class="scene" id="lateral" aria-labelledby="lateral-h">
+  <div class="prose">
+    <p class="scene-no">Plate VII</p>
+    <h2 id="lateral-h">Edges, and the illusion of bands</h2>
+    <p>Stare at a border between a dark gray band and a light gray one. Each band is uniform, yet the light side looks lighter near the edge, and the dark side darker. <em>Edge enhancement</em> is the retina sharpening the world — and lateral inhibition explains it.</p>
+    <figure class="demo" id="lat-demo">
+      <figcaption class="demo-label">Retinal model — switch inhibition on and off</figcaption>
+      <div class="demo-controls">
+        <button class="btn toggle" id="latToggle" aria-pressed="false" aria-describedby="lat-readout">Lateral inhibition: off</button>
+      </div>
+      <svg id="latGrid" viewBox="0 0 520 200" role="img" aria-labelledby="lat-readout"></svg>
+      <p id="lat-readout" class="readout" aria-live="polite">Without lateral inhibition the output staircase matches the stimulus exactly: dark 5 spikes/s, light 10 spikes/s.</p>
+      <p class="note">Model from the chapter: photoreceptor output 1 spike/s per unit of light; excitatory synapse +1; each neighbor’s inhibitory synapse −0.2. Far from the edge: 10 − 0.2(10+10) = 6 spikes/s and 5 − 0.2(5+5) = 3 spikes/s. At the edge: light neighbor 10 − 0.2(10+5) = 7; dark neighbor 5 − 0.2(5+10) = 2. Perception: borders exaggerated.</p>
+    </figure>
+    <p>The same circuit also manufactures an illusion. Lay one thin horizontal bar across a painted gradient of light and dark vertical bands and the bar seems uneven — darker where it crosses light bands, lighter where it crosses dark ones. Mask the background and the bar is revealed to be perfectly uniform. The bar was never the problem; your retina was.</p>
+    <details class="aside">
+      <summary>Try it: the Mach-band illusion</summary>
+      <figure class="mach" id="machFig">
+        <svg viewBox="0 0 520 120" role="img" aria-label="A horizontal bar crossing a gradient of vertical bands.">
+          <g id="machBands"></g><rect id="machBar" x="0" y="44" width="520" height="32"/>
+          <rect id="machMask" x="0" y="0" width="520" height="120" opacity="0"/>
+        </svg>
+        <div class="demo-controls">
+          <button class="btn" id="machBtn">Mask the background</button>
+        </div>
+        <p id="mach-readout" class="readout" aria-live="polite">The bar crosses bands from dark to light. It may appear uneven in brightness.</p>
+      </figure>
+    </details>
+  </div>
+</section>
+
+<!-- ============ SCENE VIII: SYNTHESIS ============ -->
+<section class="scene" id="synthesis" aria-labelledby="syn-h">
+  <div class="prose">
+    <p class="scene-no">Plate VIII</p>
+    <h2 id="syn-h">Synthesis: how to look at the paintings</h2>
+    <p>Step back and look at the whole series again, and you can now see one mechanism compounded into a mind:</p>
+    <ol class="synthesis">
+      <li>A neuron is polarized — <strong>−60 millivolts</strong> of stored, waiting difference.</li>
+      <li>Push that difference <strong>10 mV</strong> toward zero and it snaps into an <strong>all-or-nothing spike</strong>, +40 mV, half a millisecond wide.</li>
+      <li>Intensity isn’t carried by spike size, but by <strong>spike frequency</strong>.</li>
+      <li>At the synapse, spikes become chemical votes — <strong>EPSPs say go, IPSPs say stop</strong> — and the postsynaptic cell is an adding machine that fires or stays silent.</li>
+      <li>Wire excitation and inhibition into small motifs — <strong>relay, gate, fan-out, fan-in, contrast, latch, damper</strong> — and you get reflexes, edges, rhythms, and memory; the same feedback shapes recur as nanocircuits inside single cells.</li>
+    </ol>
+    <p>The wonderful device is not that the brain has 100 billion neurons — it is that they communicate in a highly structured manner, forming networks. Every painting in this atlas was the same painting at a different scale.</p>
+    <h3>Sources and credits</h3>
+    <ul class="credits">
+      <li>Primary source: John H. Byrne, Ph.D., <a href="https://nba.uth.tmc.edu/neuroscience/m/s1/introduction.html">“Introduction to Neurons and Neuronal Networks,”</a> Neuroscience Online, Section 1, Introduction Chapter, Department of Neurobiology and Anatomy, McGovern Medical School, UTHealth Houston. All factual content, figure logic (resting −60 mV, spike +40 mV in ~0.5 ms, EPSP/IPSP summation, microcircuit motifs, stretch reflex, +1/−0.2 lateral-inhibition model, bursting and <em>per</em>-loop nanocircuits) derives from this chapter.</li>
+      <li>Artwork: original, generated in the browser with <a href="https://github.com/acamposuribe/p5.brush">p5.brush</a> 1.1.4 (brush, watercolor fills) on <a href="https://p5js.org">p5.js</a> 1.11.3, with seeded drawing for reproducibility. Charts and labels are hand-built SVG.</li>
+      <li>Values in the interactive demos are simplified illustrative reconstructions of relationships documented in the source, labeled as such in the text; no data were copied from the source figures.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <p>The Painted Neuron · a scrollytelling atlas built with p5.js + p5.brush · public-domain-friendly source material from Neuroscience Online (UTHealth) · artwork © its generator, SVG figures hand-built.</p>
+</footer>
+
+<div id="readingControls" class="reading-controls">
+  <button id="readingModeBtn" class="btn" aria-pressed="false">Reading mode</button>
+</div>
+
+</body>
+</html>
