@@ -31,6 +31,18 @@ python3 -m http.server 8000
 No build step; no network access needed at runtime (p5.js and p5.brush are
 vendored under `vendor/`).
 
+## Deploy (Vercel)
+
+Import the repository at vercel.com/new — it is detected as a plain static
+site (no framework, no build command, output directory `./`). `vercel.json`
+adds:
+
+- immutable 1-year caching for `/vendor/*` (pinned, never changes in place)
+- one-week caching for `/css/*` and `/js/*`
+- `cleanUrls`, no trailing slashes, and baseline security headers
+
+CLI: `npx vercel --prod` from this directory.
+
 ## Contents
 
 | Path | Role |
